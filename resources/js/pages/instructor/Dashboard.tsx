@@ -236,7 +236,7 @@ export default function Dashboard({ instructor, bookings = [], stats }: Dashboar
                             </div>
                             <div>
                                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">
-                                    You have {stats?.hire_requests_count} new School Hire Request{stats?.hire_requests_count > 1 ? 's' : ''}!
+                                    You have {stats?.hire_requests_count} new School Hire Request{(stats?.hire_requests_count ?? 0) > 1 ? 's' : ''}!
                                 </h4>
                                 <p className="text-xs text-slate-600 dark:text-slate-300">
                                     A partner kite center sent you a teaching contract offer.

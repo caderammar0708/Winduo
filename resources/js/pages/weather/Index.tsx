@@ -143,7 +143,7 @@ export default function WeatherIndex({
     const [weatherError, setWeatherError] = useState<string | null>(null);
 
     const searchContainerRef = useRef<HTMLDivElement>(null);
-    const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Close suggestions dropdown when clicking outside
     useEffect(() => {

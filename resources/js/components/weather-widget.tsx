@@ -66,7 +66,7 @@ export default function WeatherWidget({ defaultPlaceId = 'kalpitiya-1242089', cl
     const [showSuggestions, setShowSuggestions] = useState(false);
 
     const searchRef = useRef<HTMLDivElement>(null);
-    const debounceRef = useRef<NodeJS.Timeout | null>(null);
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Close suggestions on outside click
     useEffect(() => {

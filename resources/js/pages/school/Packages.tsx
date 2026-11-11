@@ -45,7 +45,7 @@ export default function Packages({ school, packages }: PackagesProps) {
         price: '',
         description: '',
         features: [] as string[],
-        is_active: true,
+        is_active: true as boolean,
     });
 
     const openCreateModal = () => {
