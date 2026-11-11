@@ -11,7 +11,7 @@ export const options = {
   ],
 };
 
-const BASE_URL = 'https://kitelink-production.up.railway.app';
+const BASE_URL = 'https://winduo.online';
 
 export default function () {
   let res = http.get(`${BASE_URL}/`);

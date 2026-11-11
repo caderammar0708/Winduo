@@ -33,10 +33,10 @@ class DatabaseSeeder extends Seeder
 
         // Create Admin user
         $admin = User::updateOrCreate(
-            ['email' => 'admin@gmail.com'],
+            ['email' => 'Ammar@winduo.online'],
             [
                 'name' => 'admin',
-                'password' => Hash::make('admin@gmail.com'),
+                'password' => Hash::make('Ammar@2006'),
                 'role' => 'admin',
                 'email_verified_at' => now(),
 
