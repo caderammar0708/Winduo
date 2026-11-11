@@ -8,7 +8,7 @@ export interface ProfileDetailItem {
     value: React.ReactNode;
 }
 
-export interface RenderFullProfileProps<T = any> {
+export interface RenderFullProfileProps<T = unknown> {
     data: T | null;
     isLoading: boolean;
     error: string | null;
@@ -16,7 +16,7 @@ export interface RenderFullProfileProps<T = any> {
     layoutId: string;
 }
 
-export interface ExpandableProfileCardProps<T = any> {
+export interface ExpandableProfileCardProps<T = unknown> {
     id: string | number;
     title: string;
     location?: string | null;
@@ -35,7 +35,7 @@ export interface ExpandableProfileCardProps<T = any> {
 
 export type ViewState = 'collapsed' | 'modal' | 'full';
 
-export default function ExpandableProfileCard<T = any>({
+export default function ExpandableProfileCard<T = unknown>({
     id,
     title,
     location,

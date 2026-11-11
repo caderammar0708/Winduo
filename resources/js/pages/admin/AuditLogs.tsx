@@ -4,14 +4,11 @@ import { Head, router } from '@inertiajs/react';
 import {
     Activity,
     AlertOctagon,
-    ArrowRight,
     Calendar,
     ChevronRight,
     Clock,
     Download,
-    FileSpreadsheet,
     FileText,
-    Filter,
     Globe,
     History,
     Key,
@@ -21,10 +18,8 @@ import {
     LogOut,
     RefreshCw,
     Search,
-    Shield,
     ShieldAlert,
     ShieldCheck,
-    User,
     UserX,
     X,
 } from 'lucide-react';
@@ -39,8 +34,8 @@ interface AuditLogItem {
     auditable_type: string | null;
     auditable_id: number | null;
     description: string | null;
-    old_values: Record<string, any> | null;
-    new_values: Record<string, any> | null;
+    old_values: Record<string, unknown> | null;
+    new_values: Record<string, unknown> | null;
     ip_address: string | null;
     user_agent: string | null;
     url: string | null;
@@ -928,7 +923,7 @@ export default function AuditLogs({
                                                     const isRemoved = oldVal !== undefined && newVal === undefined;
                                                     const isModified = oldVal !== undefined && newVal !== undefined && oldVal !== newVal;
 
-                                                    const formatVal = (v: any) => {
+                                                    const formatVal = (v: unknown) => {
                                                         if (v === null) return 'null';
                                                         if (v === undefined) return 'undefined';
                                                         if (typeof v === 'boolean') return v ? 'true' : 'false';
