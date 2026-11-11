@@ -230,6 +230,7 @@ export default function Messages({ conversations = [], activeConversationId, mes
                                     const isSelected = c.id === activeConversationId;
                                     const other = c.other_user;
                                     const isInstructor = other?.role === 'instructor';
+                                    const isAdmin = other?.role === 'admin';
 
                                     return (
                                         <button
@@ -271,12 +272,14 @@ export default function Messages({ conversations = [], activeConversationId, mes
                                                 <div className="flex items-center gap-1.5">
                                                     <span
                                                         className={`py-0.2 inline-flex items-center rounded px-1.5 text-[9px] font-bold tracking-wider uppercase ${
-                                                            isInstructor
-                                                                ? 'bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300'
-                                                                : 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300'
+                                                            isAdmin
+                                                                ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
+                                                                : isInstructor
+                                                                  ? 'bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300'
+                                                                  : 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300'
                                                         }`}
                                                     >
-                                                        {isInstructor ? 'Instructor' : 'Client'}
+                                                        {isAdmin ? 'Admin' : isInstructor ? 'Instructor' : 'Client'}
                                                     </span>
 
                                                     {c.last_message && (

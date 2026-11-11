@@ -29,6 +29,7 @@ class MessageReceivedNotification extends Notification
 
         // Direct link based on recipient's role
         $link = match ($notifiable->role) {
+            'admin' => "/admin/users?message_user_id={$this->message->sender_id}",
             'instructor' => "/instructor/messages/{$this->conversation->id}",
             'school' => "/school/messages/{$this->conversation->id}",
             default => "/client/messages/{$this->conversation->id}",

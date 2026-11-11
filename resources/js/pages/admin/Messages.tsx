@@ -26,7 +26,8 @@ interface ConversationItem {
 interface MessageItem {
     id: number;
     sender_id: number;
-    content: string;
+    body?: string;
+    content?: string;
     created_at: string;
     sender?: {
         name: string;
@@ -191,7 +192,7 @@ export default function MessagesMonitor({ conversations, activeConversation, fil
                                                         {new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                     </span>
                                                 </div>
-                                                <p className="leading-relaxed whitespace-pre-line text-slate-700 dark:text-slate-300">{m.content}</p>
+                                                <p className="leading-relaxed whitespace-pre-line text-slate-700 dark:text-slate-300">{m.body ?? m.content}</p>
                                             </div>
                                         );
                                     })}

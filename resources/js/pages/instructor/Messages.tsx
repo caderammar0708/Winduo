@@ -325,7 +325,11 @@ export default function Messages({ conversations = [], activeConversationId, mes
                                         <div>
                                             <h3 className="text-sm font-bold text-slate-900 dark:text-white">{otherUser.name}</h3>
                                             <span className="text-[11px] text-slate-500 capitalize dark:text-slate-400">
-                                                {otherUser.role === 'school' ? 'Kite Center Partner' : 'Student Rider'}
+                                                {otherUser.role === 'admin'
+                                                    ? 'Platform Administrator'
+                                                    : otherUser.role === 'school'
+                                                      ? 'Kite Center Partner'
+                                                      : 'Student Rider'}
                                             </span>
                                         </div>
                                     </div>

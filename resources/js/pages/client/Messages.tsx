@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Head, router, usePage, usePoll } from '@inertiajs/react';
-import { Award, Check, CheckCheck, MessageSquare, Search, Send, Sparkles } from 'lucide-react';
+import { Award, Check, CheckCheck, MessageSquare, Search, Send, Shield, Sparkles } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 interface OtherUser {
@@ -305,8 +305,17 @@ export default function Messages({ conversations = [], activeConversationId, mes
                                             <h3 className="text-sm font-bold text-slate-900 sm:text-base dark:text-white">{otherUser.name}</h3>
                                             <div className="flex items-center gap-1.5">
                                                 <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-[#8acbff]">
-                                                    <Award className="h-3 w-3" />
-                                                    Certified Instructor
+                                                    {otherUser.role === 'admin' ? (
+                                                        <>
+                                                            <Shield className="h-3 w-3" />
+                                                            Platform Administrator
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <Award className="h-3 w-3" />
+                                                            {otherUser.role === 'school' ? 'Kite School' : 'Certified Instructor'}
+                                                        </>
+                                                    )}
                                                 </span>
                                             </div>
                                         </div>

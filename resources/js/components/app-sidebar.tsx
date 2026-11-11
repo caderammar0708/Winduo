@@ -14,7 +14,6 @@ import {
     DollarSign,
     History,
     LayoutDashboard,
-
     MessageSquare,
     Package,
     Settings,
@@ -22,6 +21,7 @@ import {
     Star,
     User,
     UserCheck,
+    UserCog,
     Users,
 } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -38,6 +38,11 @@ export function AppSidebar() {
             title: 'Dashboard',
             url: '/admin/dashboard',
             icon: LayoutDashboard,
+        },
+        {
+            title: 'User Management',
+            url: '/admin/users',
+            icon: UserCog,
         },
         {
             title: 'Approvals',
@@ -58,6 +63,11 @@ export function AppSidebar() {
             title: 'Clients',
             url: '/admin/clients',
             icon: UserCheck,
+        },
+        {
+            title: 'User Management',
+            url: '/admin/users',
+            icon: UserCog,
         },
         {
             title: 'Bookings',
@@ -95,7 +105,6 @@ export function AppSidebar() {
             icon: Settings,
         },
     ];
-
 
     const instructorNavItems: NavItem[] = [
         {

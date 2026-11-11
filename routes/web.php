@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SchoolController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\VerificationPendingController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Client\BookingController as ClientBookingController;
@@ -288,6 +289,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/clients/{user}/suspend', [ClientController::class, 'suspend'])->name('clients.suspend');
     Route::post('/clients/{user}/reactivate', [ClientController::class, 'reactivate'])->name('clients.reactivate');
     Route::delete('/clients/{user}', [ClientController::class, 'destroy'])->name('clients.destroy');
+
+    // 5b. Users Management (Admin Only)
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::match(['patch', 'post'], '/users/{user}/role', [UserController::class, 'assignRole'])->name('users.role');
+    Route::post('/users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/users/{user}/messages', [UserController::class, 'messages'])->name('users.messages');
+    Route::post('/users/{user}/message', [UserController::class, 'sendMessage'])->name('users.message');
 
     // 6. Bookings Management
     Route::get('/bookings', [App\Http\Controllers\Admin\BookingController::class, 'index'])->name('bookings');
