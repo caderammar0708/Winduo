@@ -1,0 +1,74 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      BASE: /home/${{ secrets.SSH_USER }}/domains/winduo.online
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo_mysql, fileinfo, openssl
+          tools: composer:v2
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build frontend
+        run: |
+          npm ci
+          npm run build
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Upload app code to laravel/
+        run: |
+          rsync -rlptz --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }}" \
+            --exclude='.git' --exclude='.github' --exclude='.agents' \
+            --exclude='node_modules' --exclude='tests' --exclude='loadtests' --exclude='scratch' \
+            --exclude='.env' --exclude='storage' --exclude='public' \
+            --exclude='AGENTS.md' --exclude='boost.json' \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$BASE/laravel/
+
+      - name: Upload public files to public_html/
+        run: |
+          rsync -rlptz --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }}" \
+            --exclude='index.php' --exclude='storage' --exclude='hot' --exclude='build' \
+            public/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$BASE/public_html/
+
+          rsync -rlptz --delete --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }}" \
+            public/build/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$BASE/public_html/build/
+
+      - name: Post-deploy commands
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} '
+            cd ~/domains/winduo.online/laravel &&
+            mkdir -p storage/framework/{cache,sessions,views} storage/logs bootstrap/cache &&
+            php artisan migrate --force &&
+            php artisan optimize:clear &&
+            php artisan queue:restart || true
+          '
